@@ -39,6 +39,7 @@ public class FTConfiguration: NSObject {
     
     /// indexes that will not dismiss on selection
     public var noDismissalIndexes: [Int]?
+    public var isAr: Bool = false
     
 }
 
