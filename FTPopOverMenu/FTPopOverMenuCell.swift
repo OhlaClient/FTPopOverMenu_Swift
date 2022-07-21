@@ -32,7 +32,6 @@ class FTPopOverMenuCell: UITableViewCell {
         nameLabel.font = configuration.textFont
         nameLabel.textColor = configuration.textColor
         nameLabel.textAlignment = configuration.textAlignment
-        nameLabel.frame = CGRect(x: FT.DefaultCellMargin, y: 0, width: configuration.menuWidth - FT.DefaultCellMargin*2, height: configuration.menuRowHeight)
         
         var iconImage: UIImage? = nil
         if menuName is String {
@@ -48,14 +47,58 @@ class FTPopOverMenuCell: UITableViewCell {
         }
         
         // Configure cell icon if available
+        
         if iconImage != nil {
-            if  configuration.ignoreImageOriginalColor {
+            if configuration.ignoreImageOriginalColor {
                 iconImage = iconImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             }
             iconImageView.tintColor = configuration.textColor
-            iconImageView.frame =  CGRect(x: FT.DefaultCellMargin, y: (configuration.menuRowHeight - configuration.menuIconSize)/2, width: configuration.menuIconSize, height: configuration.menuIconSize)
             iconImageView.image = iconImage
-            nameLabel.frame = CGRect(x: FT.DefaultCellMargin*2 + configuration.menuIconSize, y: (configuration.menuRowHeight - configuration.menuIconSize)/2, width: (configuration.menuWidth - configuration.menuIconSize - FT.DefaultCellMargin*3), height: configuration.menuIconSize)
+            
+            let iconImageViewW: CGFloat = configuration.menuIconSize
+            let iconImageViewH: CGFloat = configuration.menuIconSize
+            let iconImageViewX: CGFloat
+            let iconImageViewY: CGFloat = (configuration.menuRowHeight - configuration.menuIconSize)/2
+            
+            if configuration.isAr {
+                iconImageViewX = configuration.menuWidth - iconImageViewW - FT.DefaultCellMargin
+            } else {
+                iconImageViewX = FT.DefaultCellMargin
+            }
+            
+            iconImageView.frame = CGRect(x: iconImageViewX, y: iconImageViewY, width: iconImageViewW, height: iconImageViewH)
         }
+        
+        let nameLabelW: CGFloat
+        let nameLabelH: CGFloat
+        let nameLabelX: CGFloat
+        let nameLabelY: CGFloat
+        
+        if configuration.isAr {
+            if iconImage != nil {
+                nameLabelW = (configuration.menuWidth - configuration.menuIconSize - FT.DefaultCellMargin*3)
+                nameLabelX = FT.DefaultCellMargin
+                nameLabelY = (configuration.menuRowHeight - configuration.menuIconSize)/2
+                nameLabelH = configuration.menuIconSize
+            } else {
+                nameLabelW = configuration.menuWidth - FT.DefaultCellMargin*2
+                nameLabelX = FT.DefaultCellMargin
+                nameLabelY = 0
+                nameLabelH = configuration.menuRowHeight
+            }
+        } else {
+            if iconImage != nil {
+                nameLabelW = (configuration.menuWidth - configuration.menuIconSize - FT.DefaultCellMargin*3)
+                nameLabelX = FT.DefaultCellMargin*2 + configuration.menuIconSize
+                nameLabelY = (configuration.menuRowHeight - configuration.menuIconSize)/2
+                nameLabelH = configuration.menuIconSize
+            } else {
+                nameLabelW = configuration.menuWidth - FT.DefaultCellMargin*2
+                nameLabelX = FT.DefaultCellMargin
+                nameLabelY = 0
+                nameLabelH = configuration.menuRowHeight
+            }
+        }
+        nameLabel.frame = CGRect(x: nameLabelX, y: nameLabelY, width: nameLabelW, height: nameLabelH)
     }
 }
