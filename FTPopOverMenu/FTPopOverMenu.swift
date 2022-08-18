@@ -82,7 +82,7 @@ public class FTPopOverMenu: NSObject, FTPopOverMenuViewDelegate {
         return gesture
     }()
     
-    class var shared: FTPopOverMenu {
+    public class var shared: FTPopOverMenu {
         struct Manager {
             static let instance = FTPopOverMenu()
         }
